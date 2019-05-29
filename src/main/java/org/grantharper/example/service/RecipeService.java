@@ -1,5 +1,6 @@
 package org.grantharper.example.service;
 
+import org.grantharper.example.domain.Recipe;
 import org.grantharper.example.dto.RecipeDTO;
 import org.grantharper.example.repository.RecipeRepository;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class RecipeService {
     }
 
     public RecipeDTO getRecipe(Long recipeId) {
-        return null;
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(RecipeNotFoundException::new);
+        return new RecipeDTO(recipe.getTitle(), recipe.getAuthor());
     }
 }
