@@ -5,6 +5,7 @@ import org.grantharper.example.service.RecipeService;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,5 +32,9 @@ public class RecipeResource {
         return "recipe";
     }
 
+    @GetMapping(path = "/recipe/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RecipeDTO getRecipe(@PathVariable Long id) {
+        return recipeService.getRecipe(id);
+    }
 
 }

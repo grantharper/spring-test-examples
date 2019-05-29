@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 public class RecipeResourceTest {
 
+    private static final Long TEST_ID = 1L;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -52,5 +54,14 @@ public class RecipeResourceTest {
         mockMvc.perform(get("/recipe").accept(MediaType.TEXT_HTML))
         .andExpect(status().isOk())
         .andExpect(content().string("recipe"));
+    }
+
+    @Test
+    public void givenRequestRecipeJsonShouldReturnRecipeJson() throws Exception {
+        when(recipeService.getRecipe(TEST_ID)).thenReturn(getSampleRecipe());
+
+        mockMvc.perform(get("/recipe/" + TEST_ID).accept(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk())
+               .andExpect(content().json("{'title':'Strawberry Shortcake','author':'Grant'}"));
     }
 }

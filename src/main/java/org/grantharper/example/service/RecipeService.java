@@ -12,4 +12,8 @@ public class RecipeService {
     public List<RecipeDTO> getAllRecipes() {
         return new ArrayList<>();
     }
+
+    public RecipeDTO getRecipe(Long recipeId) {
+        return null;
+    }
 }
