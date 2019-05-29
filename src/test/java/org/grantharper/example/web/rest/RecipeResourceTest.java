@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
-public class RecipeDTOResourceTest {
+public class RecipeResourceTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -36,6 +36,6 @@ public class RecipeDTOResourceTest {
     public void givenRequestAllRecipesHtmlShouldReturnAllRecipesHtml() throws Exception {
         mockMvc.perform(get("/recipe").accept(MediaType.TEXT_HTML))
         .andExpect(status().isOk())
-        .andExpect(content().string("<h1>Strawberry Shortcake</h1><p>Author: Grant</p>"));
+        .andExpect(content().string("recipe"));
     }
 }
