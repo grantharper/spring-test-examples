@@ -26,9 +26,16 @@ public class RecipeDTOResourceTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    public void givenRequestAllRecipesShouldReturnAllRecipes() throws Exception {
+    public void givenRequestAllRecipesJsonShouldReturnAllRecipesJson() throws Exception {
         mockMvc.perform(get("/recipe").accept(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(content().json("[{'title':'Strawberry Shortcake','author':'Grant'}]"));
+    }
+
+    @Test
+    public void givenRequestAllRecipesHtmlShouldReturnAllRecipesHtml() throws Exception {
+        mockMvc.perform(get("/recipe").accept(MediaType.TEXT_HTML))
+        .andExpect(status().isOk())
+        .andExpect(content().string("<h1>Strawberry Shortcake</h1><p>Author: Grant</p>"));
     }
 }
