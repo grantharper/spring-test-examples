@@ -2,6 +2,7 @@ package org.grantharper.example.web.rest;
 
 
 import org.grantharper.example.dto.RecipeDTO;
+import org.grantharper.example.service.RecipeNotFoundException;
 import org.grantharper.example.service.RecipeService;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecipeResourceTest {
 
     private static final Long TEST_ID = 1L;
+    private static final Long NOT_FOUND_ID = 1000L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -63,5 +65,13 @@ public class RecipeResourceTest {
         mockMvc.perform(get("/recipe/" + TEST_ID).accept(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(content().json("{'title':'Strawberry Shortcake','author':'Grant'}"));
+    }
+
+    @Test
+    public void givenRequestNoResourceShouldReturn404() throws Exception {
+        when(recipeService.getRecipe(NOT_FOUND_ID)).thenThrow(RecipeNotFoundException.class);
+
+        mockMvc.perform(get("/recipe/" + NOT_FOUND_ID).accept(MediaType.APPLICATION_JSON))
+               .andExpect(status().isNotFound());
     }
 }
