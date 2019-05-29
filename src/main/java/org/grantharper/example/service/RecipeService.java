@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RecipeService {
@@ -18,7 +19,9 @@ public class RecipeService {
     }
 
     public List<RecipeDTO> getAllRecipes() {
-        return new ArrayList<>();
+        return recipeRepository.findAll().stream()
+                        .map(recipe -> new RecipeDTO(recipe.getTitle(), recipe.getAuthor()))
+                        .collect(Collectors.toList());
     }
 
     public RecipeDTO getRecipe(Long recipeId) {

@@ -8,7 +8,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -28,6 +31,14 @@ public class RecipeServiceTest {
     public void setup() throws Exception {
         recipeRepository = mock(RecipeRepository.class);
         recipeService = new RecipeService(recipeRepository);
+    }
+
+    @Test
+    public void givenRequestForAllRecipesShouldRetrieveRecipes() {
+        when(recipeRepository.findAll()).thenReturn(Stream.of(getSampleRecipe()).collect(Collectors.toList()));
+        List<RecipeDTO> allRecipes = recipeService.getAllRecipes();
+        assertThat(allRecipes).isNotEmpty();
+        assertThat(allRecipes.get(0).getTitle()).isEqualTo(getSampleRecipe().getTitle());
     }
 
     @Test
