@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +40,13 @@ public class RecipeServiceTest {
         List<RecipeDTO> allRecipes = recipeService.getAllRecipes();
         assertThat(allRecipes).isNotEmpty();
         assertThat(allRecipes.get(0).getTitle()).isEqualTo(getSampleRecipe().getTitle());
+    }
+
+    @Test
+    public void givenRequestForAllRecipesAndEmptyListReturnedNoErrorIsThrown() {
+        when(recipeRepository.findAll()).thenReturn(new ArrayList<>());
+        List<RecipeDTO> allRecipes = recipeService.getAllRecipes();
+        assertThat(allRecipes).isEmpty();
     }
 
     @Test
