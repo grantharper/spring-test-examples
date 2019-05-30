@@ -17,7 +17,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
-@RestClientTest({RemoteTranslationService.class})
+@RestClientTest({RemoteTranslationService.class, TranslationServiceProperties.class})
 public class RemoteTranslationServiceTest {
 
     @Autowired
