@@ -1,0 +1,3 @@
+recipe:
+  translation:
+    rootUrl: "http://localhost:8081"

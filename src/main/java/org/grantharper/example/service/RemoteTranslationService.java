@@ -9,9 +9,12 @@ import org.springframework.web.client.RestTemplate;
 public class RemoteTranslationService implements TranslationService {
 
     private RestTemplate restTemplate;
+    private TranslationServiceProperties translationServiceProperties;
 
-    public RemoteTranslationService(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public RemoteTranslationService(RestTemplateBuilder restTemplateBuilder,
+                                    TranslationServiceProperties properties) {
+        this.restTemplate = restTemplateBuilder.rootUri(properties.getRootUrl()).build();
+        this.translationServiceProperties = properties;
     }
 
     @Override
