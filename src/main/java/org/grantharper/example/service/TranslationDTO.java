@@ -3,8 +3,8 @@ package org.grantharper.example.service;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class TranslationDTO {
-    private String text;
-    private String lang;
+    private final String text;
+    private final String lang;
 
     @JsonCreator
     public TranslationDTO(String text, String lang) {

@@ -28,6 +28,15 @@ public class TranslationDTOJsonTest {
 
     }
 
+    @Test
+    public void shouldDeserialize() throws IOException {
+        TranslationDTO object = tester.read(getTranslationRequest()).getObject();
+
+        assertThat(object).isNotNull();
+        assertThat(object.getLang()).isEqualTo("fr");
+        assertThat(object.getText()).isEqualTo("Tomato Sauce");
+    }
+
     private InputStream getTranslationRequest() {
         return getClass().getClassLoader().getResourceAsStream("translation-request.json");
     }
