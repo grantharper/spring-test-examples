@@ -16,18 +16,12 @@ public class RemoteTranslationService implements TranslationService {
 
     @Override
     public String translate(String text, String language) {
-        TranslationDTO translationDTO = new TranslationDTO();
-        translationDTO.text = text;
-        translationDTO.lang = language;
+        TranslationDTO translationDTO = new TranslationDTO(text, language);
         try {
-            return restTemplate.postForObject("/translate", translationDTO, TranslationDTO.class).text;
+            return restTemplate.postForObject("/translate", translationDTO, TranslationDTO.class).getText();
         } catch (HttpStatusCodeException e) {
             throw new TranslationServiceErrorException();
         }
     }
 
-    public static class TranslationDTO {
-        public String text;
-        public String lang;
-    }
 }
