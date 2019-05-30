@@ -32,7 +32,7 @@ public class RemoteTranslationServiceTest {
     @Test
     public void givenTranslationRequestShouldReturnTranslation() {
         server.expect(requestTo("/translate"))
-              .andRespond(withSuccess(getClassPathResource("translation.json"), MediaType.APPLICATION_JSON));
+              .andRespond(withSuccess(getClassPathResource("translation-response.json"), MediaType.APPLICATION_JSON));
 
         String translate = remoteTranslationService.translate("Tomato Sauce", "fr");
 
