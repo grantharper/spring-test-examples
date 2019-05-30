@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest({RecipeResource.class})
 public class RecipeResourceTest {
 
     private static final Long TEST_ID = 1L;
@@ -54,8 +54,8 @@ public class RecipeResourceTest {
     @Test
     public void givenRequestAllRecipesHtmlShouldReturnAllRecipesHtml() throws Exception {
         mockMvc.perform(get("/recipe").accept(MediaType.TEXT_HTML))
-        .andExpect(status().isOk())
-        .andExpect(content().string("recipe"));
+               .andExpect(status().isOk())
+               .andExpect(content().string("recipe"));
     }
 
     @Test
