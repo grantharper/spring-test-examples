@@ -34,6 +34,6 @@ public class RemoteTranslationServiceTest {
     }
 
     private ClassPathResource getClassPathResource(String path) {
-        return new ClassPathResource(path, getClass());
+        return new ClassPathResource(path, getClass().getClassLoader());
     }
 }
