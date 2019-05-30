@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final TranslationService translationService;
 
-    public RecipeService(RecipeRepository recipeRepository) {
+    public RecipeService(RecipeRepository recipeRepository, TranslationService translationService) {
         this.recipeRepository = recipeRepository;
+        this.translationService = translationService;
     }
 
     public List<RecipeDTO> getAllRecipes() {
@@ -27,5 +29,11 @@ public class RecipeService {
     public RecipeDTO getRecipe(Long recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(RecipeNotFoundException::new);
         return new RecipeDTO(recipe.getTitle(), recipe.getAuthor());
+    }
+
+    public RecipeDTO getTranslatedRecipe(Long recipeId, String targetLanguage) {
+        RecipeDTO recipe = getRecipe(recipeId);
+        String translatedTitle = translationService.translate(recipe.getTitle(), targetLanguage);
+        return new RecipeDTO(translatedTitle, recipe.getAuthor());
     }
 }

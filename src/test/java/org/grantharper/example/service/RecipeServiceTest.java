@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +25,7 @@ public class RecipeServiceTest {
 
     private RecipeService recipeService;
     private RecipeRepository recipeRepository;
+    private TranslationService translationService;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -31,7 +33,8 @@ public class RecipeServiceTest {
     @Before
     public void setup() throws Exception {
         recipeRepository = mock(RecipeRepository.class);
-        recipeService = new RecipeService(recipeRepository);
+        translationService = mock(TranslationService.class);
+        recipeService = new RecipeService(recipeRepository, translationService);
     }
 
     @Test
@@ -63,6 +66,17 @@ public class RecipeServiceTest {
         when(recipeRepository.findById(TEST_ID)).thenReturn(Optional.empty());
         expectedException.expect(RecipeNotFoundException.class);
         recipeService.getRecipe(TEST_ID);
+    }
+
+    @Test
+    public void givenTranslationRequestReturnTranslatedRecipe() {
+        when(recipeRepository.findById(TEST_ID)).thenReturn(Optional.of(getSampleRecipe()));
+        when(translationService.translate("Red Sauce", "fr"))
+                .thenReturn("Sauce Tomate");
+        RecipeDTO translatedRecipe = recipeService.getTranslatedRecipe(TEST_ID, "fr");
+
+        assertThat(translatedRecipe).isNotNull();
+        assertThat(translatedRecipe.getTitle()).isEqualTo("Sauce Tomate");
     }
 
     private Recipe getSampleRecipe() {
