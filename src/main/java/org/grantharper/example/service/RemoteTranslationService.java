@@ -1,8 +1,8 @@
 package org.grantharper.example.service;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -19,8 +19,11 @@ public class RemoteTranslationService implements TranslationService {
         TranslationDTO translationDTO = new TranslationDTO();
         translationDTO.text = text;
         translationDTO.lang = language;
-        ResponseEntity<TranslationDTO> response = restTemplate.postForEntity("/translate", translationDTO, TranslationDTO.class);
-        return response.getBody().text;
+        try {
+            return restTemplate.postForObject("/translate", translationDTO, TranslationDTO.class).text;
+        } catch (HttpStatusCodeException e) {
+            throw new TranslationServiceErrorException();
+        }
     }
 
     public static class TranslationDTO {
