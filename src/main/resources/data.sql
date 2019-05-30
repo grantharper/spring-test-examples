@@ -1,0 +1,1 @@
+insert into recipe(id, title, author) values(1, 'Tomato Sauce', 'Grant')
